@@ -30,7 +30,7 @@ Aplicación web desarrollada en **Angular + TypeScript + Bootstrap** para el Exa
    
    ejecutar: ng serve -o
 
-## Arquitectura del Proyecto
+## Pruebas Manuales Realizadas
  registro de nueva mascota con validación de campos obligatorios y teléfono de 9 dígitos
 
  agendamiento de cita con fecha actual verificando el resaltado amarillo automático
