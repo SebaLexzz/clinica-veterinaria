@@ -1,0 +1,100 @@
+<div class="row g-4">
+  <!-- Formulario para agendar cita -->
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white fw-bold">
+        Agendar Nueva Cita
+      </div>
+      <div class="card-body">
+        <form [formGroup]="citaForm" (ngSubmit)="agendarCita()">
+          <div class="mb-3">
+            <label class="form-label">Mascota</label>
+            <select class="form-select" formControlName="mascotaId">
+              <option value="">-- Selecciona una mascota --</option>
+              <option *ngFor="let m of mascotas" [value]="m.id">
+                {{ m.nombre }} ({{ m.dueno }})
+              </option>
+            </select>
+            <div
+              class="text-danger small"
+              *ngIf="citaForm.get('mascotaId')?.touched && citaForm.get('mascotaId')?.invalid"
+            >
+              Debes seleccionar una mascota.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" formControlName="fecha" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Hora</label>
+            <input type="time" class="form-control" formControlName="hora" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Motivo de la consulta</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="motivo"
+              placeholder="Ej. Vacuna, control general"
+            />
+            <div
+              class="text-danger small"
+              *ngIf="citaForm.get('motivo')?.touched && citaForm.get('motivo')?.invalid"
+            >
+              Ingresa el motivo de la cita.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Agendar Cita
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de citas -->
+  <div class="col-md-8">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0 fw-bold">Agenda de Citas ({{ citas.length }})</h4>
+      <span class="badge bg-warning text-dark">
+        Amarillo = Citas de hoy
+      </span>
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+      <div
+        class="card shadow-sm border-0"
+        *ngFor="let c of citas"
+        [appResaltarCita]="c.fecha"
+      >
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div>
+            <h5 class="mb-1 fw-bold">{{ c.mascotaNombre }}</h5>
+            <p class="mb-1 text-muted small">
+              📅 {{ c.fecha }} &nbsp;|&nbsp; ⏰ {{ c.hora }}
+            </p>
+            <p class="mb-0"><strong>Motivo:</strong> {{ c.motivo }}</p>
+          </div>
+
+          <div class="text-end">
+            <div class="mb-2 fw-semibold">
+              {{ c.estado | estadoCita }}
+            </div>
+            <button
+              *ngIf="c.estado === 'Pendiente'"
+              class="btn btn-success btn-sm"
+              (click)="marcarAtendida(c.id)"
+            >
+              Marcar como Atendida
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

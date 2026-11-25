@@ -1,0 +1,92 @@
+<div class="row g-4">
+  <!-- Formulario de registro -->
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white fw-bold">
+        Registrar Mascota
+      </div>
+      <div class="card-body">
+        <form [formGroup]="mascotaForm" (ngSubmit)="registrarMascota()">
+          <div class="mb-3">
+            <label class="form-label">Nombre de la mascota</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombre"
+              placeholder="Ej. Toby"
+            />
+            <div
+              class="text-danger small"
+              *ngIf="mascotaForm.get('nombre')?.touched && mascotaForm.get('nombre')?.invalid"
+            >
+              Ingresa un nombre válido (mín. 2 letras).
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Especie</label>
+            <select class="form-select" formControlName="especie">
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Edad (años)</label>
+            <input type="number" class="form-control" formControlName="edad" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre del dueño</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="dueno"
+              placeholder="Ej. Luis Gómez"
+            />
+            <div
+              class="text-danger small"
+              *ngIf="mascotaForm.get('dueno')?.touched && mascotaForm.get('dueno')?.invalid"
+            >
+              El nombre del dueño es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Teléfono (9 dígitos)</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="telefono"
+              placeholder="987654321"
+            />
+            <div
+              class="text-danger small"
+              *ngIf="mascotaForm.get('telefono')?.touched && mascotaForm.get('telefono')?.invalid"
+            >
+              Ingresa un celular válido de 9 dígitos.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Guardar Mascota
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de mascotas -->
+  <div class="col-md-8">
+    <h4 class="mb-3 fw-bold">Mascotas Registradas ({{ mascotas.length }})</h4>
+    <div class="row g-3">
+      <div class="col-sm-6" *ngFor="let m of mascotas">
+        <app-mascota-card
+          [mascota]="m"
+          (verHistorial)="irAlHistorial($event)"
+        ></app-mascota-card>
+      </div>
+    </div>
+  </div>
+</div>
